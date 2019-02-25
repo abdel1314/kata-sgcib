@@ -1,0 +1,21 @@
+<div class="container-fluid" *ngIf='currency'>
+  <h1>{{currency.code}}</h1>
+  <div class="row">
+      <div class="col-12 col-md-4 col-lg-4">
+          <div class="card">
+          <div class="card-body">
+              <ul>
+                <li>Id: {{currency.id}}</li>
+                <li>Code: {{currency.code}}</li>
+                <li>Name: {{currency.name}}</li>
+                <li>Name plural: {{currency.name_plural}}</li>
+                <li>Symbol: {{currency.symbol}}</li>
+                <li>Symbol native: {{currency.symbol_native}}</li>
+                <li>Decimal digits: {{currency.decimal_digits}}</li>
+                <li>Rounding: {{currency.rounding}}</li>
+              </ul>
+          </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container-fluid" *ngIf="currencies">
+    <h1 class="mb-5">Available currencies</h1>
+    <div class="row mb-5">
+        <div class="col-12 col-md-6 col-lg-4 mb-2">
+            <div class="input-group">
+                <button type="submit"><i class="fa fa-search"></i></button>
+                <input type="text" class="form-control" placeholder="Search" name="search" [(ngModel)]="search" (keyup.enter)="searchCurrencies()">
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mb-2">
+            <select class="custom-select" [(ngModel)]="filter" (change)="filterCurrencies()">
+                <option *ngFor="let f of filterList" [ngValue]="f">{{f}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-6 col-md-3 col-lg-2 mb-2" *ngFor='let currency of currencies'>
+            <a [routerLink]="['/currency', currency.id]">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <ul class="list-inline">
+                            <li>Name: {{currency.name}}</li>
+                            <li>Code: {{currency.code}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+        <div class="nav-item">
+            <select class="custom-select" [(ngModel)]="selectedSize" (change)="getCurrencyPagination()">
+                <option *ngFor="let c of currenciesPerPage" [ngValue]="c.page">{{c.page}}</option>
+            </select>
+        </div> 
+        <div class="nav-item">
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="allCurrencies.length" [pageSize]="selectedSize" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="getCurrencyPagination()"></ngb-pagination>
+        </div>
+    </nav>
+</div>
