@@ -6,61 +6,44 @@ import { CurrencyList, Currency } from './../model';
 @Component({
   selector: 'app-currencies',
   templateUrl: './currencies.component.html',
-  styleUrls: ['./currencies.component.less']     
+  styleUrls: ['./currencies.component.less']
 })
 
 export class CurrenciesComponent implements OnInit {
 
   currencies: CurrencyList[];
-  allCurrencies: CurrencyList[];
+  allCurrenciesSize: number;
   page: number = 1;
   selectedSize: number = 10;
-  search: string;
+  search: string = '';
   filterList: {};
   filter: string;
 
-  currenciesPerPage: {page: number}[] = [
-    {page: 10},
-    {page: 50},
-    {page: 100}
+  currenciesPerPage: { page: number }[] = [
+    { page: 10 },
+    { page: 50 },
+    { page: 100 }
   ];
 
   constructor(private service: AppService) { }
 
   ngOnInit() {
-    this.getAllCurrencies();
-    this.getCurrencyPagination();
+    this.serachCurrencies();
   }
 
-  getCurrencyPagination () {
-    this.service.getCurrencyPagination(this.page, this.selectedSize)
-    .subscribe(currencies => this.currencies = currencies);
+  getCurrencies() {
+    this.service.getCurrency(this.page, this.filter, this.search, this.selectedSize)
+      .subscribe(currencies => this.currencies = currencies);
   }
 
-  getAllCurrencies() {
-    this.service.getAllCurrency()
+  serachCurrencies() {
+    this.service.searchCurrency(this.search)
       .subscribe(currencies => {
-        this.allCurrencies = currencies;
+        this.allCurrenciesSize = currencies.length;
         this.filterList = Object.keys(currencies[0]);
         this.filter = this.filterList[0];
+        this.getCurrencies();
       });
-  }
-
-  searchCurrencies() {
-    this.service.searchCurrencies(this.search)
-      .subscribe(currencies => {
-        this.currencies = currencies;
-        this.allCurrencies = currencies;
-      });
-  }
-
-  filterCurrencies() {
-    this.service.filterCurrencies(this.filter)
-      .subscribe(currencies => {
-        this.currencies = currencies;
-        this.allCurrencies = currencies;
-      });
-    this.search = "";
   }
 
 }

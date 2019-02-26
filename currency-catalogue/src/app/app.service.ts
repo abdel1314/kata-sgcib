@@ -30,26 +30,17 @@ export class AppService {
       'Something bad happened; please try again later.');
   };
 
-  getAllCurrency(): Observable<CurrencyList[]> {
-    let url: string = this.baseUrl + 'currencies';
-    return this.http.get<CurrencyList[]>(url)
-      .pipe(
-        retry(3), // retry a failed request up to 3 times
-        catchError(this.handleError) // then handle the error
-      )
-  }
-
-  getCurrencyPagination(page: number, currenciesPerPage?: number): Observable<CurrencyList[]> {
-    let url: string = this.baseUrl + 'currencies?page=' + page + '&limit=' + currenciesPerPage;
-    return this.http.get<CurrencyList[]>(url)
-      .pipe(
-        retry(3), // retry a failed request up to 3 times
-        catchError(this.handleError) // then handle the error
-      )
-  }
-
-  searchCurrencies(search: string): Observable<CurrencyList[]> {
+  searchCurrency(search: string): Observable<CurrencyList[]> {
     let url: string = this.baseUrl + 'currencies?search=' + search;
+    return this.http.get<CurrencyList[]>(url)
+      .pipe(
+        retry(3), // retry a failed request up to 3 times
+        catchError(this.handleError) // then handle the error
+      )
+  }
+
+  getCurrency(page: number, filter: string, search: string, currenciesPerPage?: number): Observable<CurrencyList[]> {
+    let url: string = this.baseUrl + 'currencies?search=' + search + '&page=' + page + '&limit=' + currenciesPerPage + '&sortBy=' + filter;
     return this.http.get<CurrencyList[]>(url)
       .pipe(
         retry(3), // retry a failed request up to 3 times
@@ -66,12 +57,4 @@ export class AppService {
       )
   }
 
-  filterCurrencies(filter: string): Observable<CurrencyList[]> {
-    let url: string = this.baseUrl + 'currencies?sortBy=' + filter;
-    return this.http.get<CurrencyList[]>(url)
-      .pipe(
-        retry(3), // retry a failed request up to 3 times
-        catchError(this.handleError) // then handle the error
-      )
-  }
 }
